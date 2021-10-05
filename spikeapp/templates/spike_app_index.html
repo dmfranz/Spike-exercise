@@ -1,0 +1,16 @@
+{% load static %}
+{% block page_content %}
+<h1>Logins</h1>
+<div class="row">
+{% for login in logins %}
+    <div class="col-md-4">
+        <div class="card mb-2">
+            <div class="card-body">
+                <p>{{ login.username }}</p>
+                <p>{{ login.password }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
