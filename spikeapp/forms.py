@@ -1,6 +1,7 @@
 from django import forms
 
-class CreateNewAccount(forms.Form):
-    username = forms.CharField(label="Username",max_length=200)
-    password = forms.CharField(label="Password", max_length=200)
-    re_entered_pass = forms.CharField(label="Re-enter password", max_length=200)
+class CreateNewRentalApplication(forms.Form):
+    first_name = forms.CharField(label='First Name', max_length=200)
+    last_name = forms.CharField(label='Last Name', max_length=200)
+    email = forms.CharField(label='Email', max_length=200)
+    phone_number = forms.IntegerField(label='Phone number')

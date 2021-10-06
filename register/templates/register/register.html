@@ -6,7 +6,7 @@
 
     <h1>Create Account</h1>
 
-    <form method="POST" >
+    <form method="POST" class="form-group">
         {% csrf_token %}
         {{form|crispy}}
         <button type="submit" class="btn btn-success" >Register</button>
