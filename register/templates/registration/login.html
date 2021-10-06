@@ -1,0 +1,16 @@
+{% block title %}
+Login Here 
+{% endblock %}
+{% load crispy_forms_tags %}
+
+
+{% block Content %}
+    <form method="POST" class="form-group">
+        {% csrf_token %}
+        {{form}}
+        <button type="submit" class="btn btn-success">Login</button>
+        <p><a href="/register/">Create Account</a></p>
+    </form>
+
+
+{% endblock %}
