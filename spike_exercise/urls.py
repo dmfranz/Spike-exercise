@@ -21,6 +21,7 @@ from spikeapp import views as spikeapp_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/', v.register, name="register"),
+    path('dashboard/', spikeapp_views.dashboard, name="dashboard"),
     path('', include('spikeapp.urls')),
     path('rental_application', spikeapp_views.rental_application, name="rental_application"),
     path('',include('django.contrib.auth.urls')),
