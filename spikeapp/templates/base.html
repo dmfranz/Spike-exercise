@@ -8,11 +8,16 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
 
-    <title>{% block title %}Spike {% endblock %}</title>
+    <title>{% block title %}MadRentals{% endblock %}</title>
   </head>
   <body>
 
-    
+    {% block header %}
+    <header>
+      <h1>MadRentals - Managing Made Easier</h1>
+    </header>
+    {% endblock %}
+
     {% block content %}
 
 

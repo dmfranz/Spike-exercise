@@ -26,8 +26,5 @@ def rental_application(request):
 
 
 def dashboard(request):
-    # logins = Login.objects.all()
-    # context = {
-    #     'logins': logins
-    # }
-    return render(request, 'dashboard.html')
+    is_tenant = False
+    return render(request, 'dashboard.html', {'is_tenant': is_tenant})
