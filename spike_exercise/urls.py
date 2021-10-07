@@ -26,6 +26,6 @@ urlpatterns = [
     path('requests/', spikeapp_views.requests, name="requests"),
     path('', include('django.contrib.auth.urls')),
     path('rental_application', spikeapp_views.rental_application, name="rental_application"),
-    path('',include('django.contrib.auth.urls')),
+    path('', include('django.contrib.auth.urls')),
 
 ]

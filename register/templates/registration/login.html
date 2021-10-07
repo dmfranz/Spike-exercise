@@ -7,13 +7,11 @@ Login Here
 
 {% block content %}
     <h1>Login</h1>
-
     <form method="POST" class="form-group">
         {% csrf_token %}
         {{form.as_p}}
-        <p><a href="/register/">Create Account</a></p>
+        <p><a href="/register">Create Account</a></p>
         <button type="submit" class="btn btn-success">Login</button>
-        
     </form>
 
 
