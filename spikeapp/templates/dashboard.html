@@ -5,13 +5,19 @@ MadRentals - Dashboard
 
 {% block content %}
 
-<header>
-    <h1>MadRentals - Managing Made Easier</h1>
-</header>
+{% if is_tenant %}
 <section>
-
+    <a href="/">Fill Out An Application</a>
+    <a href="/">Pay Rent</a>
+    <a href="/">Fill Out A Maintence Request</a>
 </section>
 
-
+{% elif not is_tenant %}
+<section>
+    <a href="/">Review Applications</a>
+    <a href="/">Review Rent Payments</a>
+    <a href="/">Review Maintenence Requests</a>
+</section>
+{% endif %}
 
 {% endblock %}
