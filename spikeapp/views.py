@@ -29,8 +29,9 @@ def rental_application(request):
 
 
 def dashboard(request):
-    is_tenant = False
+    is_tenant = True
     return render(request, 'dashboard.html', {'is_tenant': is_tenant})
+
 
 def requests(request):
     is_tenant = True
@@ -42,8 +43,9 @@ def requests(request):
     else:
         form = CreateRequestForm()
     
-    return render(request, 'requests.html', {'form':form, 'is_tenant' : is_tenant})
-    
+    return render(request, 'requests.html', {'form':form, 'is_tenant': is_tenant})
+
+
 def payment(request):
     if request.method == "POST":
         PaymentForm = MakePayment(request.POST)

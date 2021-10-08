@@ -3,21 +3,26 @@
 MadRentals - Dashboard
 {% endblock %}
 
+{% block navbar%}
+
+<nav>
+    <a href="/logout" class="btn btn-success btn-lg active">Log Out</a>
+</nav>
+
+{% endblock %}
+
 {% block content %}
 
 {% if user.is_authenticated %}
-<nav>
-    <a href="/logout" class="btn btn-primary btn-lg active">Log Out</a>
-</nav>
 <div id="dashboard">
     {% if is_tenant %}
     <section>
         <p>Apply and enter your information into a preliminary application, and submit it to rental owners.</p>
-        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/">Fill Out An Application</a></button>
+        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/rentalapplication">Fill Out An Application</a></button>
         <p>View balance on the system and make rental payments.</p>
-        <button type="button" class="btn btn-secondary  btn-sm dashboard-buttons"><a href="/">Pay Rent</a></button>
+        <button type="button" class="btn btn-secondary  btn-sm dashboard-buttons"><a href="/payment">Pay Rent</a></button>
         <p>Input a maintenance request and whether it is a priority.</p>
-        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/">Fill Out A Maintence Request</a></button>
+        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/requests">Fill Out A Maintence Request</a></button>
     </section>
 
     {% elif not is_tenant %}
