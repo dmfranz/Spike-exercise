@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}
+Manage Requests
+{% endblock %}
+
+{% block content %}
+
+    {% if query_results %}
+
+        <h1>
+            Manage Requests
+        </h1>
+        <div class="container">
+            {% for item in query_results %}
+                <h5>Maintenance request from "{{ item.tenant_name }}" with message: <b>{{ item.message }} PRIORITY: {{ item.priority }}</b>.</h5>
+            {% endfor %}
+            <br>
+            <button onClick="window.location.reload();">Refresh Requests</button>
+        </div>
+
+
+    {% else %}
+
+        <div>
+            <h1>
+                Manage Requests
+            </h1>
+            <p>
+                There are no requests.
+            </p>
+        </div>
+
+    {% endif %}
+{% endblock %}

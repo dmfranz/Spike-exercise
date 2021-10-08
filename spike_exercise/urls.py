@@ -28,5 +28,6 @@ urlpatterns = [
     path('', include('django.contrib.auth.urls')),
     path('rentalapplication/', spikeapp_views.rental_application, name="rental_application"),
     path('', include('django.contrib.auth.urls')),
-    path('logout', v.logout_function, name="logout")  # logout button pressed; called from form.
+    path('logout', v.logout_function, name="logout"),  # logout button pressed; called from form.
+    path('manage_requests/', spikeapp_views.manage_requests, name='manage_requests'),
 ]

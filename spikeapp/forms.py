@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from spikeapp.models import Payment
+from spikeapp.models import Payment, RequestForm
 from spikeapp.cardhandling import CreditCardField
 from spikeapp.cardhandling import CreditCardExpirationField
 
@@ -18,11 +18,15 @@ PRIORITY_CHOICES = [
 ]
 
 
-class CreateRequestForm(forms.Form):
+class CreateRequestForm(forms.ModelForm):
     tenant_name = forms.CharField(label='Full Name', max_length=100)
     landlord_name = forms.CharField(label='Landlord Name', max_length=100)
     message = forms.CharField(label='Please enter your maintenance request here', widget=forms.Textarea(attrs={'style': "width:80%;"}), max_length=500)
     priority = forms.CharField(label='What is the priority?', widget=forms.Select(choices=PRIORITY_CHOICES))
+    class Meta:
+        model = RequestForm
+        fields = '__all__'
+
 
 
 class MakePayment(ModelForm):

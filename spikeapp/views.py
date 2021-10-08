@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from spikeapp.models import Login
+from spikeapp.models import Login, RequestForm
 from django.http import HttpResponse, response
 from .forms import CreateNewRentalApplication
 from .forms import CreateRequestForm
@@ -59,3 +59,8 @@ def payment(request):
         PaymentForm = MakePayment()
 
     return render(request, 'payment.html', {'form': PaymentForm})
+
+def manage_requests(request):
+    query_results = RequestForm.objects.all()
+
+    return render(request, 'manage_requests.html', {'query_results': query_results})
