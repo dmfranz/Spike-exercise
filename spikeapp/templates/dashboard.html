@@ -4,8 +4,10 @@ MadRentals - Dashboard
 {% endblock %}
 
 {% block content %}
+
+{% if user.is_authenticated %}
 <nav>
-    <a href="/" class="btn btn-primary btn-lg active">Log Out</a>
+    <a href="/logout" class="btn btn-primary btn-lg active">Log Out</a>
 </nav>
 <div id="dashboard">
     {% if is_tenant %}
@@ -29,5 +31,12 @@ MadRentals - Dashboard
     </section>
     {% endif %}
 </div>
+{% else %}
+<nav>
+    <a href="/login" class="btn btn-primary btn-lg active">Login</a>
+    <a href="/register" class="btn btn-primary btn-lg active">Create Account</a>
+</nav>
+<p style="margin-top: 15px;">Sorry, you cannot access this page until you login or create an account. Please click one of the above buttons.</p>
+{% endif %}
 
 {% endblock %}
