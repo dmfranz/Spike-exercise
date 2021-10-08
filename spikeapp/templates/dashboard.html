@@ -4,20 +4,30 @@ MadRentals - Dashboard
 {% endblock %}
 
 {% block content %}
+<nav>
+    <a href="/" class="btn btn-primary btn-lg active">Log Out</a>
+</nav>
+<div id="dashboard">
+    {% if is_tenant %}
+    <section>
+        <p>Apply and enter your information into a preliminary application, and submit it to rental owners.</p>
+        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/">Fill Out An Application</a></button>
+        <p>View balance on the system and make rental payments.</p>
+        <button type="button" class="btn btn-secondary  btn-sm dashboard-buttons"><a href="/">Pay Rent</a></button>
+        <p>Input a maintenance request and whether it is a priority.</p>
+        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/">Fill Out A Maintence Request</a></button>
+    </section>
 
-{% if is_tenant %}
-<section>
-    <a href="/">Fill Out An Application</a>
-    <a href="/">Pay Rent</a>
-    <a href="/">Fill Out A Maintence Request</a>
-</section>
-
-{% elif not is_tenant %}
-<section>
-    <a href="/">Review Applications</a>
-    <a href="/">Review Rent Payments</a>
-    <a href="/">Review Maintenence Requests</a>
-</section>
-{% endif %}
+    {% elif not is_tenant %}
+    <section>
+        <p>Accept or reject submitted application.</p>
+        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/">Review Applications</a></button>
+        <p>Add late fees or penalties. Enter payment through their admin accounts</p>
+        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/">Review Rent Payments</a></button>
+        <p>Review and respond to maintenance requests.</p>
+        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/">Review Maintenence Requests</a></button>
+    </section>
+    {% endif %}
+</div>
 
 {% endblock %}
