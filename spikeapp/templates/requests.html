@@ -13,6 +13,11 @@ Maintenance Requests
 </form>
 <!-- {% elif not is_tenant %} -->
 <h2>View Maintenance Requests</h2>
+<!-- <form method="GET" class="form-group">
+  {% csrf_token %}
+      {{form.as_p}}
+      <button type="submit" class="btn btn-success" >View Requests</button>
+</form> -->
 {% for post in posts %}
   <h1>({ post.tenant_name })</h1>
   <p>({ post.message })</p>

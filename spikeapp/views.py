@@ -39,11 +39,12 @@ def requests(request):
     if request.method == "POST":
         form = CreateRequestForm(request.POST)
         if form.is_valid():
-            post = form.save(commit=False)
-            # post.user = request.user
-            post.save()
+            # post = form.save(commit=False)
+            # #post.user = request.user
+            # post.save()
+            form.save()
             args = {'form':form, 'is_tenant': is_tenant}
-        return redirect('../dashboard') #change to '../requests' for testing
+        return redirect('../requests') #change to '../requests' for testing
     else:
         form = CreateRequestForm()
         posts = RequestForm.objects.all()
