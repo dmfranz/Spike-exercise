@@ -3,6 +3,8 @@ from spikeapp.models import Login
 from django.http import HttpResponse, response
 from .forms import CreateNewRentalApplication
 from .forms import CreateRequestForm
+from .forms import MakePayment
+from spikeapp.cardhandling import TryPayment
 # Create your views here.
 
 
@@ -30,7 +32,6 @@ def dashboard(request):
     is_tenant = False
     return render(request, 'dashboard.html', {'is_tenant': is_tenant})
 
-
 def requests(request):
     is_tenant = True
     if request.method == "POST":
@@ -42,3 +43,16 @@ def requests(request):
         form = CreateRequestForm()
     
     return render(request, 'requests.html', {'form':form, 'is_tenant' : is_tenant})
+    
+def payment(request):
+    if request.method == "POST":
+        PaymentForm = MakePayment(request.POST)
+        if PaymentForm.is_valid() and TryPayment(PaymentForm):
+            PaymentForm.save()
+            return redirect('../dashboard')
+        else:
+            return redirect('.')
+    else:
+        PaymentForm = MakePayment()
+
+    return render(request, 'payment.html', {'form': PaymentForm})
