@@ -35,7 +35,7 @@ def dashboard(request):
 
 
 def requests(request):
-    is_tenant = True
+    is_tenant = True 
     if request.method == "POST":
         form = CreateRequestForm(request.POST)
         if form.is_valid():
@@ -62,5 +62,5 @@ def payment(request):
 
 def manage_requests(request):
     query_results = RequestForm.objects.all()
-
+    # print(request.user) the username of current user + RequestForm.landlord_name must be equal 
     return render(request, 'manage_requests.html', {'query_results': query_results})
