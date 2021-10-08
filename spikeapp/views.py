@@ -66,3 +66,10 @@ def manage_requests(request):
     # query_results = RequestForm.objects.all()
 
     return render(request, 'manage_requests.html', {'query_results': query_results})
+
+def view_requests(request):
+    query_results = RequestForm.objects.filter(tenant_name=str(request.user).lower().strip())
+    # print(request.user) the username of current user + RequestForm.landlord_name must be equal
+    # query_results = RequestForm.objects.all()
+
+    return render(request, 'view_requests.html', {'query_results': query_results})

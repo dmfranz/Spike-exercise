@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}
+View Requests
+{% endblock %}
+
+{% block content %}
+<style>
+div.test {
+    border: 2px solid black;
+}
+</style>
+    {% if query_results %}
+
+        <h1>
+            View Requests
+        </h1>
+        <div class="test">
+            {% for item in query_results %}
+                <h5>Maintenance request from "{{ item.tenant_name }}",
+                <br>for {{ item.landlord_name }},
+                <br>message: <b>{{ item.message }}
+                <br>PRIORITY: {{ item.priority }}</b>.
+                <br>Owner Response:
+                </h5>
+                <p><br></p>
+            {% endfor %}
+            <br>
+            <button onClick="window.location.reload();">Refresh Requests</button>
+        </div>
+
+
+    {% else %}
+
+        <div>
+            <h1>
+                Manage Requests
+            </h1>
+            <p>
+                There are no requests.
+            </p>
+        </div>
+
+    {% endif %}
+{% endblock %}
