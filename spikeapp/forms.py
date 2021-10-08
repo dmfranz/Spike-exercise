@@ -3,6 +3,28 @@ from django.forms import ModelForm
 from spikeapp.models import Payment
 from spikeapp.cardhandling import CreditCardField
 from spikeapp.cardhandling import CreditCardExpirationField
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
+
+class RegisterForm(UserCreationForm):
+    renter = forms.CheckboxInput()
+    fullname = forms.CharField(label="Full Name")
+
+    class Meta:
+        model = User
+        fields = ("username", "fullname", "is_active", )
+
+
+def save(self, commit=True):
+    user = super(RegisterForm, self).save(commit=False)
+    first_name, last_name = self.cleaned_data["fullname"].split()
+    user.first_name = first_name
+    user.last_name = last_name
+    user.is_active = self.cleaned_data["renter"]
+    if commit:
+        user.save()
+    return user
 
 
 class CreateNewRentalApplication(forms.Form):

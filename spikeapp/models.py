@@ -18,7 +18,9 @@ class RentalApplication(models.Model):
 
 class User(models.Model):
     username = models.CharField(max_length=200)
-    is_renter = models.BooleanField(default=False)
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+    renter = models.BooleanField(default=True)
     
 # PRIORITY_CHOICES = (
 #     ('urgent','URGENT'),
