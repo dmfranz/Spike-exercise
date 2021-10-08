@@ -28,11 +28,13 @@ class User(models.Model):
 # class Priority(models.Model):
 #     priority = models.CharField(max_length=2, choices=PRIORITY_CHOICES, default='low priority')
 
+
 class RequestForm(models.Model):
     tenant_name = models.CharField(max_length=100)
     landlord_name = models.CharField(max_length=100)
     message = models.CharField(max_length=500)
     priority = models.CharField(max_length=100)
+
 
 class Payment(models.Model):
     # Support is being left in for multiple payment methods, but currently hard-coded to debit.

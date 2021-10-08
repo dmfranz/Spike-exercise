@@ -1,49 +1,65 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
 
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 
-    <title>{% block title %}MadRentals{% endblock %}</title>
-  </head>
-  <body>
+  <title>{% block title %}MadRentals{% endblock %}</title>
+</head>
+<body>
 
-    <div id="headerLink" class="center-block bg-light text-muted">
-      <h1><a href="/">MadRentals - <small>Managing Made Easier</small></a></h1>
-    </div>
-    <div class="container">
-    {% block header %}
+<div id="headerLink" class="center-block bg-light text-muted">
+  <h1><a href="/">MadRentals - <small>Managing Made Easier</small></a></h1>
+</div>
+<div class="container">
 
-    {% endblock %}
+  {% block navbar %}
 
-    {% block content %}
+  {% if user.is_authenticated %}
+  <nav>
+    <a href="/dashboard" class="btn btn-success btn-lg active">Dashboard</a>
+  </nav>
+  {% else %}
+  <nav>
+    <a href="/login" class="btn btn-success btn-lg active">Login</a>
+    <a href="/register" class="btn btn-success btn-lg active">Create Account</a>
+  </nav>
+  {% endif %}
 
-    {% endblock %}
-    </div>
+  {% endblock %}
 
-    <footer class="text-center text-lg-start bg-light text-muted fixed-bottom">
-      <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
-        © 2021 Copyright:
-        <a class="text-reset fw-bold" href="/">Spikeapp SE506</a>
-      </div>
-    </footer>
+  {% block header %}
 
-    <!-- Optional JavaScript; choose one of the two! -->
+  {% endblock %}
 
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ" crossorigin="anonymous"></script>
+  {% block content %}
 
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.min.js" integrity="sha384-PsUw7Xwds7x08Ew3exXhqzbhuEYmA2xnwc8BuD6SEr+UmEHlX8/MCltYEodzWA4u" crossorigin="anonymous"></script>
-    -->
-  </body>
+  {% endblock %}
+</div>
+
+<footer class="text-center text-lg-start bg-light text-muted fixed-bottom">
+  <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+    © 2021 Copyright:
+    <a class="text-reset fw-bold" href="/">Spikeapp SE506</a>
+  </div>
+</footer>
+
+<!-- Optional JavaScript; choose one of the two! -->
+
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ" crossorigin="anonymous"></script>
+
+<!-- Option 2: Separate Popper and Bootstrap JS -->
+<!--
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.min.js" integrity="sha384-PsUw7Xwds7x08Ew3exXhqzbhuEYmA2xnwc8BuD6SEr+UmEHlX8/MCltYEodzWA4u" crossorigin="anonymous"></script>
+-->
+</body>
 </html>
