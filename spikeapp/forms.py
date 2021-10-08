@@ -25,8 +25,14 @@ class CreateRequestForm(forms.ModelForm):
     priority = forms.CharField(label='What is the priority?', widget=forms.Select(choices=PRIORITY_CHOICES))
     class Meta:
         model = RequestForm
-        fields = '__all__'
+        exclude = ('response',)
 
+
+class ManageRequestForm(forms.ModelForm):
+    response = forms.CharField(label='Owner Comments', widget=forms.Textarea(attrs={'style': "width:80%;"}), max_length=500)
+    class Meta:
+        model = RequestForm
+        exclude = ['tenant_name', 'landlord_name', 'message', 'priority']
 
 
 class MakePayment(ModelForm):
