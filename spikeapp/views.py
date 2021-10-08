@@ -25,7 +25,7 @@ def rental_application(request):
     else:
         form = CreateNewRentalApplication()
     
-    return render(request, 'rental_application.html', {'form':form})
+    return render(request, 'rental_application.html', {'form': form})
 
 
 def dashboard(request):
