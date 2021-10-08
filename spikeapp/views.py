@@ -44,7 +44,7 @@ def requests(request):
             # post.save()
             form.save()
             args = {'form':form, 'is_tenant': is_tenant}
-        return redirect('../requests') #change to '../requests' for testing
+        return redirect('../dashboard') #change to '../requests' for testing
     else:
         form = CreateRequestForm()
         posts = RequestForm.objects.all()
