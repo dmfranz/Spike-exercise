@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/', v.register, name="register"),
     path('dashboard/', spikeapp_views.dashboard, name="dashboard"),
+    path('payment/', spikeapp_views.payment, name="payment"),
     path('', include('spikeapp.urls')),
     path('requests/', spikeapp_views.requests, name="requests"),
     path('', include('django.contrib.auth.urls')),
