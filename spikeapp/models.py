@@ -34,7 +34,7 @@ class RequestForm(models.Model):
     landlord_name = models.CharField(max_length=100)
     message = models.CharField(max_length=500)
     priority = models.CharField(max_length=100)
-    response = models.CharField(max_length=500)
+    response = models.CharField(max_length=500, default='Add Comment Here')
 
 
 class Payment(models.Model):
