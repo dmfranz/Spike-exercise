@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from spikeapp.models import Login, RequestForm
 from django.http import HttpResponse, response
-from .forms import CreateNewRentalApplication
+from .forms import CreateNewRentalApplication, ManageRequestForm
 from .forms import CreateRequestForm
 from .forms import MakePayment
 from spikeapp.cardhandling import TryPayment
@@ -64,8 +64,12 @@ def manage_requests(request):
     query_results = RequestForm.objects.filter(landlord_name=str(request.user).lower().strip())
     # print(request.user) the username of current user + RequestForm.landlord_name must be equal
     # query_results = RequestForm.objects.all()
+    form = ManageRequestForm(request.POST)
+    if form.is_valid():
+        form.save()
+        return redirect('..')
 
-    return render(request, 'manage_requests.html', {'query_results': query_results})
+    return render(request, 'manage_requests.html', {'form': form, 'query_results': query_results})
 
 def view_requests(request):
     query_results = RequestForm.objects.filter(tenant_name=str(request.user).lower().strip())

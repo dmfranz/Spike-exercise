@@ -30,4 +30,5 @@ urlpatterns = [
     path('', include('django.contrib.auth.urls')),
     path('logout', v.logout_function, name="logout"),  # logout button pressed; called from form.
     path('manage_requests/', spikeapp_views.manage_requests, name='manage_requests'),
+    path('view_requests/', spikeapp_views.view_requests, name='view_requests'),
 ]
