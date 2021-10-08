@@ -5,7 +5,7 @@ from .forms import CreateNewRentalApplication
 from .forms import CreateRequestForm
 from .forms import MakePayment
 from spikeapp.cardhandling import TryPayment
-from spikeapp.models import User
+from spikeapp.models import User, RequestForm
 # Create your views here.
 
 
@@ -39,12 +39,17 @@ def requests(request):
     if request.method == "POST":
         form = CreateRequestForm(request.POST)
         if form.is_valid():
-            form.save()
-        return redirect('..')
+            post = form.save(commit=False)
+            # post.user = request.user
+            post.save()
+            args = {'form':form, 'is_tenant': is_tenant}
+        return redirect('../dashboard') #change to '../requests' for testing
     else:
         form = CreateRequestForm()
+        posts = RequestForm.objects.all()
+        args = {'form':form, 'posts': posts, 'is_tenant': is_tenant}
     
-    return render(request, 'requests.html', {'form':form, 'is_tenant': is_tenant})
+    return render(request, 'requests.html', args)
 
 
 def payment(request):
