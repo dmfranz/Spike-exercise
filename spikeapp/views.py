@@ -5,6 +5,7 @@ from .forms import CreateNewRentalApplication
 from .forms import CreateRequestForm
 from .forms import MakePayment
 from spikeapp.cardhandling import TryPayment
+from spikeapp.models import User
 # Create your views here.
 
 
