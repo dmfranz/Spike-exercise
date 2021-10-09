@@ -15,7 +15,7 @@ MadRentals - Dashboard
 
 {% if user.is_authenticated %}
 <div id="dashboard">
-    {% if is_tenant %}
+    {% if is_renter %}
     <section>
         <p>Apply and enter your information into a preliminary application, and submit it to rental owners.</p>
         <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/rentalapplication">Fill Out An Application</a></button>
@@ -25,7 +25,7 @@ MadRentals - Dashboard
         <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/requests">Fill Out A     Maintenance Request</a></button>
     </section>
 
-    {% elif not is_tenant %}
+    {% elif not is_renter %}
     <section>
         <p>Accept or reject submitted application.</p>
         <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/">Review Applications</a></button>

@@ -6,9 +6,9 @@ from spikeapp.cardhandling import CreditCardExpirationField
 from spikeapp.models import Profile
 
 
-class ProfileForm(forms.ModelForm):
+class ProfileForm(ModelForm):
     fullname = forms.CharField(label="Full Name", max_length=200)
-    renter = forms.CheckboxInput()
+    is_renter = forms.CheckboxInput()
 
     class Meta:
         model = Profile

@@ -13,9 +13,11 @@ def register(request):
         user_form = UserCreationForm(request.POST)
         profile_form = ProfileForm(request.POST)
         if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-
+            user = user_form.save()
+            user.refresh_from_db()
+            user.profile.fullname = profile_form.cleaned_data.get('fullname')
+            user.profile.is_renter = profile_form.cleaned_data.get('is_renter')
+            user.save()
             new_user = authenticate(username=user_form.cleaned_data['username'],
                                     password=user_form.cleaned_data['password1'],
                                     )
