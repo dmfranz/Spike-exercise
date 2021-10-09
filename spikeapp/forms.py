@@ -13,7 +13,7 @@ class RegisterForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ("username", "fullname", "is_active", )
+        fields = ("username", "fullname", )
 
 
 def save(self, commit=True):
