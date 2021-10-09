@@ -12,8 +12,8 @@
 
 <form method="POST" class="form-group">
     {% csrf_token %}
-    {{form|crispy}}
-
+    {{user_form|crispy}}
+    {{profile_form|crispy}}
     <button type="submit" class="btn btn-success" value="Submit">Register</button>
 </form>
 
