@@ -32,12 +32,12 @@ def rental_application(request):
 def dashboard(request):
     items = Profile.objects.filter(username=request.user)
     is_renter = items[0].is_renter
-    print(is_renter)
     return render(request, 'dashboard.html', {'is_renter': is_renter})
 
 
 def requests(request):
-    is_tenant = True
+    items = Profile.objects.filter(username=request.user)
+    is_renter = items[0].is_renter
     if request.method == "POST":
         form = CreateRequestForm(request.POST)
         if form.is_valid():
@@ -46,7 +46,7 @@ def requests(request):
     else:
         form = CreateRequestForm()
     
-    return render(request, 'requests.html', {'form':form, 'is_tenant': is_tenant})
+    return render(request, 'requests.html', {'form': form, 'is_renter': is_renter})
 
 
 def payment(request):
