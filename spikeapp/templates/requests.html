@@ -4,14 +4,14 @@ Maintenance Requests
 {% endblock %}
 
 {% block content %}
-{% if is_tenant %}
+{% if is_renter %}
 <h1>Create Maintenance Request</h1>
 <form method="POST" class="form-group">
     {% csrf_token %}
-        {{form.as_p}}
-        <button type="submit" class="btn btn-success" >Submit Request</button>
+    {{form.as_p}}
+    <button type="submit" class="btn btn-success" >Submit Request</button>
 </form>
-{% elif not is_tenant %}
+{% elif not is_renter %}
 
 {% endif %}
 {% endblock %}
