@@ -1,18 +1,55 @@
 {% extends "base.html" %}
 {% block title %}
-Make Payment
+Make A Payment
 {% endblock %}
 
 {% block content %}
 
 <h1>Payment</h1>
 
+
 <form method="POST" class="form-group">
     {% csrf_token %}
-        {{form.as_p}}
-        <button type="submit" class="btn btn-success" >Enter payment information</button>
+    {% if not is_tenant %}
+        <p><div class="fieldWrapper">
+        {{ form.AffectedUser.errors }}
+        {{ form.AffectedUser.label_tag }}
+        {{ form.AffectedUser }}
+        </div></p>
+    {% endif %}
+
+    <p><div class="fieldWrapper">
+        {{ form.Amount.errors }}
+        {{ form.Amount.label_tag }}
+        {{ form.Amount }}
+    </div></p>
+
+    <p><div class="fieldWrapper">
+        {{ form.CardNum.errors }}
+        {{ form.CardNum.label_tag }}
+        {{ form.CardNum }}
+    </div></p>
+
+    <p><div class="fieldWrapper">
+        {{ form.CardDate.errors }}
+        {{ form.CardDate.label_tag }}
+        {{ form.CardDate }}
+    </div></p>
+
+    <p><div class="fieldWrapper">
+        {{ form.CardCVV.errors }}
+        {{ form.CardCVV.label_tag }}
+        {{ form.CardCVV }}
+    </div></p>
+
+    <p><div class="fieldWrapper">
+        {{ form.CardName.errors }}
+        {{ form.CardName.label_tag }}
+        {{ form.CardName }}
+    </div></p>
+
+    <!--{{form.as_p}}-->
+    <button type="submit" class="btn btn-success" >Submit Payment</button>
 </form>
-
-
 
 {% endblock %}

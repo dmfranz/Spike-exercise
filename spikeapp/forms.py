@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from spikeapp.models import Payment
+from django.contrib.auth.models import User
 from spikeapp.cardhandling import CreditCardField
 from spikeapp.cardhandling import CreditCardExpirationField
 
@@ -13,9 +14,15 @@ class CreateNewRentalApplication(forms.Form):
 
 
 class MakePayment(ModelForm):
+    users = Pr
     class Meta:
         model = Payment
-        exclude = ['ByRenter', 'RunningBalance', 'Method']
+        fields = '__all__'
+
+        widgets = {
+            'AffectedUser': forms.ModelChoiceField(queryset=User.objects.all()),
+        }
+
         labels = {
             "Amount": "Payment Amount"
         }
