@@ -66,6 +66,8 @@ def manage_requests(request):
     # query_results = RequestForm.objects.all()
     form = ManageRequestForm(request.POST)
     if form.is_valid():
+        # response = form.get('response')
+        # form.update(response=response)
         form.save()
         return redirect('..')
 
@@ -76,4 +78,11 @@ def view_requests(request):
     # print(request.user) the username of current user + RequestForm.landlord_name must be equal
     # query_results = RequestForm.objects.all()
 
-    return render(request, 'view_requests.html', {'query_results': query_results})
+    form = ManageRequestForm(request.GET)
+    if form.is_valid():
+        form.save()
+        return redirect('../view_requests')
+
+    #Don't we need a from variable here to be able to see the new data?
+
+    return render(request, 'view_requests.html', {'form': form, 'query_results': query_results})
