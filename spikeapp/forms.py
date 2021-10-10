@@ -13,7 +13,7 @@ class ProfileForm(ModelForm):
 
     class Meta:
         model = Profile
-        fields = ("fullname", "is_renter", )
+        fields = ("fullname", "is_renter")
 
 
 class CreateNewRentalApplication(forms.Form):
@@ -37,17 +37,13 @@ class CreateRequestForm(forms.Form):
 
 
 class MakePayment(ModelForm):
-    users = Pr
     class Meta:
         model = Payment
         fields = '__all__'
 
-        widgets = {
-            'AffectedUser': forms.ModelChoiceField(queryset=User.objects.all()),
-        }
-
         labels = {
-            "Amount": "Payment Amount"
+            "Amount": "Payment Amount",
+            "AffectedUser": "Account for Deposit"
         }
         placeholders = {
             "Amount": 0.00

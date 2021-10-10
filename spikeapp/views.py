@@ -50,31 +50,39 @@ def requests(request):
 
 
 def payment(request):
-    is_tenant = True
+    profiles = Profile.objects.all()
+    curr_user_query = Profile.objects.filter(username=request.user)
+    curr_user = curr_user_query[0]
+    is_tenant = curr_user.is_renter
 
     if request.method == "POST":
-        PaymentForm = MakePayment(request.POST)
+        payment_form = MakePayment(request.POST)
 
-        if PaymentForm.is_valid() and TryPayment(PaymentForm):
+        if payment_form.is_valid() and TryPayment(payment_form):
             # FinalForm is the version of the form that will actually be saved to the database,
             # with fields modified as necessary (based on tenant vs owner)
-            FinalForm = PaymentForm.save(commit=False)
+            final_form = payment_form.save(commit=False)
 
-            FinalForm.ByTenant = is_tenant
-            if FinalForm.ByTenant:
-                FinalForm.DepositingUser = 'currentuser'
-                FinalForm.AffectedUser = 'currentuser'
+            final_form.ByTenant = is_tenant
+            final_form.DepositingUser = curr_user.username
+
+            # Exact functions are dependent on if this is a tenant or owner
+            # Need to set running balance and modify the user's balance, and possibly set the affected user
+            if final_form.ByTenant:
+                final_form.AffectedUser = curr_user.username
+                final_form.RunningBalance = curr_user.balance - final_form.Amount
+                curr_user.balance = final_form.RunningBalance
             else:
-                FinalForm.DepositingUser = 'currentuser'
-                FinalForm.AffectedUser = 'selecteduser'
+                items = Profile.objects.filter(username=final_form.AffectedUser)
+                affected_user = items[0]
+                final_form.RunningBalance = affected_user.balance - final_form.Amount
+                affected_user.balance = final_form.RunningBalance
 
-            # Need to deduct paid amount from user account, or if owner, select account to be paying for
-            # Also need to save running balance
-            FinalForm.save()
+            final_form.save()
             return redirect('../dashboard')
         else:
             return redirect('.')
     else:
-        PaymentForm = MakePayment()
+        payment_form = MakePayment()
 
-    return render(request, 'payment.html', {'form': PaymentForm, 'is_tenant': is_tenant})
+    return render(request, 'payment.html', {'form': payment_form, 'is_tenant': is_tenant})
