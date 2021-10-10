@@ -3,21 +3,45 @@
 MadRentals - Dashboard
 {% endblock %}
 
+{% block navbar%}
+
+<nav>
+    <a href="/logout" class="btn btn-success btn-lg active">Log Out</a>
+</nav>
+
+{% endblock %}
+
 {% block content %}
 
-{% if is_tenant %}
-<section>
-    <a href="/">Fill Out An Application</a>
-    <a href="/">Pay Rent</a>
-    <a href="/">Fill Out A Maintence Request</a>
-</section>
+{% if user.is_authenticated %}
+<div id="dashboard">
+    {% if is_renter %}
+    <section>
+        <p>Apply and enter your information into a preliminary application, and submit it to rental owners.</p>
+        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/rentalapplication">Fill Out An Application</a></button>
+        <p>View balance on the system and make rental payments.</p>
+        <button type="button" class="btn btn-secondary  btn-sm dashboard-buttons"><a href="/payment">Pay Rent</a></button>
+        <p>Input a maintenance request and whether it is a priority.</p>
+        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/requests">Fill Out A     Maintenance Request</a></button>
+    </section>
 
-{% elif not is_tenant %}
-<section>
-    <a href="/">Review Applications</a>
-    <a href="/">Review Rent Payments</a>
-    <a href="/">Review Maintenence Requests</a>
-</section>
+    {% elif not is_renter %}
+    <section>
+        <p>Accept or reject submitted application.</p>
+        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/">Review Applications</a></button>
+        <p>Add late fees or penalties. Enter payment through their admin accounts</p>
+        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/">Review Rent Payments</a></button>
+        <p>Review and respond to maintenance requests.</p>
+        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/">Review Maintenance Requests</a></button>
+    </section>
+    {% endif %}
+</div>
+{% else %}
+<nav>
+    <a href="/login" class="btn btn-primary btn-lg active">Login</a>
+    <a href="/register" class="btn btn-primary btn-lg active">Create Account</a>
+</nav>
+<p style="margin-top: 15px;">Sorry, you cannot access this page until you login or create an account. Please click one of the above buttons.</p>
 {% endif %}
 
 {% endblock %}

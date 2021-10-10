@@ -1,20 +1,22 @@
 {% extends "base.html" %}
 {% block title %}
-Login Here 
+Login Here
 {% endblock %}
 
 {% load crispy_forms_tags %}
 
-{% block content %}
-    <h1>Login</h1>
+{% block navbar %}
 
-    <form method="POST" class="form-group">
-        {% csrf_token %}
-        {{form.as_p}}
-        <p><a href="/register/">Create Account</a></p>
-        <button type="submit" class="btn btn-success">Login</button>
-        
-    </form>
+{% endblock %}
+
+{% block content %}
+<h1>Login</h1>
+<form method="POST" class="form-group">
+    {% csrf_token %}
+    {{form.as_p}}
+    <p><a href="/register">Create Account</a></p>
+    <button type="submit" class="btn btn-success">Login</button>
+</form>
 
 
 {% endblock %}
