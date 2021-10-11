@@ -1,12 +1,11 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from spikeapp.models import Login, RequestForm
+from spikeapp.models import Profile, User, RequestForm
 from django.http import HttpResponse, response
-from .forms import CreateNewRentalApplication, ManageRequestForm
+from .forms import CreateNewRentalApplication
 from .forms import CreateRequestForm
-from .forms import MakePayment
+from .forms import MakePayment, ManageRequestForm
 from spikeapp.cardhandling import TryPayment
-from spikeapp.models import User
-# Create your views here.
 
 
 def spikeapp(request):
@@ -29,13 +28,16 @@ def rental_application(request):
     return render(request, 'rental_application.html', {'form': form})
 
 
+@login_required()
 def dashboard(request):
-    is_tenant = True
-    return render(request, 'dashboard.html', {'is_tenant': is_tenant})
+    items = Profile.objects.filter(username=request.user)
+    is_renter = items[0].is_renter
+    print(is_renter)
+    return render(request, 'dashboard.html', {'is_renter': is_renter})
 
 
 def requests(request):
-    is_tenant = True 
+    is_tenant = True
     if request.method == "POST":
         form = CreateRequestForm(request.POST)
         if form.is_valid():
@@ -43,7 +45,7 @@ def requests(request):
         return redirect('..')
     else:
         form = CreateRequestForm()
-    
+
     return render(request, 'requests.html', {'form':form, 'is_tenant': is_tenant})
 
 
@@ -60,6 +62,7 @@ def payment(request):
 
     return render(request, 'payment.html', {'form': PaymentForm})
 
+
 def manage_requests(request):
     query_results = RequestForm.objects.filter(landlord_name=str(request.user).lower().strip())
     # print(request.user) the username of current user + RequestForm.landlord_name must be equal
@@ -72,6 +75,7 @@ def manage_requests(request):
         return redirect('..')
 
     return render(request, 'manage_requests.html', {'form': form, 'query_results': query_results})
+
 
 def view_requests(request):
     query_results = RequestForm.objects.filter(tenant_name=str(request.user).lower().strip())

@@ -15,27 +15,24 @@ MadRentals - Dashboard
 
 {% if user.is_authenticated %}
 <div id="dashboard">
-    {% if is_tenant %}
+    {% if is_renter %}
     <section>
         <p>Apply and enter your information into a preliminary application, and submit it to rental owners.</p>
         <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/rentalapplication">Fill Out An Application</a></button>
         <p>View balance on the system and make rental payments.</p>
         <button type="button" class="btn btn-secondary  btn-sm dashboard-buttons"><a href="/payment">Pay Rent</a></button>
         <p>Input a maintenance request and whether it is a priority.</p>
-        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/requests">Fill Out A Maintence Request</a></button>
-        <p>View requests and owner responses.</p>
-        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/view_requests/">View Requests</a></button>
-
+        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/requests">Fill Out A     Maintenance Request</a></button>
     </section>
 
-    {% elif not is_tenant %}
+    {% elif not is_renter %}
     <section>
         <p>Accept or reject submitted application.</p>
         <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/">Review Applications</a></button>
         <p>Add late fees or penalties. Enter payment through their admin accounts</p>
         <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/">Review Rent Payments</a></button>
         <p>Review and respond to maintenance requests.</p>
-        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/">Review Maintenence Requests</a></button>
+        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/">Review Maintenance Requests</a></button>
     </section>
     {% endif %}
 </div>

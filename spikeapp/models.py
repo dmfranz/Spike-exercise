@@ -1,12 +1,22 @@
 from django.db import models
 from django.db.models.base import ModelState
 from django.core.validators import MinValueValidator
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
-# Create your models here.
-class Login(models.Model):
-    username = models.CharField(max_length=100)
-    password = models.CharField(max_length=500)
+class Profile(models.Model):
+    username = models.OneToOneField(User, on_delete=models.CASCADE)
+    fullname = models.CharField(max_length=200, blank=True)
+    is_renter = models.BooleanField(default=False)
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(username=instance)
+    instance.profile.save()
 
 
 class RentalApplication(models.Model):
@@ -16,10 +26,6 @@ class RentalApplication(models.Model):
     phone_number = models.IntegerField(default=None)
 
 
-class User(models.Model):
-    username = models.CharField(max_length=200)
-    is_renter = models.BooleanField(default=False)
-    
 # PRIORITY_CHOICES = (
 #     ('urgent','URGENT'),
 #     ('low priority', 'LOW'),
