@@ -22,11 +22,15 @@ def rental_application(request):
         form = CreateNewRentalApplication(request.POST)
         if form.is_valid():
             form.save()
-        return redirect('..')
+            return redirect('/dashboard')
     else:
         form = CreateNewRentalApplication()
     
     return render(request, 'rental_application.html', {'form': form})
+
+
+def view_applications(request):
+    return render(request, 'view_applications.html')
 
 
 @login_required()

@@ -18,21 +18,21 @@ MadRentals - Dashboard
     {% if is_renter %}
     <section>
         <p>Apply and enter your information into a preliminary application, and submit it to rental owners.</p>
-        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/rentalapplication">Fill Out An Application</a></button>
+        <a href="/rentalapplication"><button type="button" class="btn btn-secondary btn-sm dashboard-buttons">Fill Out An Application</button></a>
         <p>View balance on the system and make rental payments.</p>
-        <button type="button" class="btn btn-secondary  btn-sm dashboard-buttons"><a href="/payment">Pay Rent</a></button>
+        <a href="/payment"><button type="button" class="btn btn-secondary  btn-sm dashboard-buttons">Pay Rent</button></a>
         <p>Input a maintenance request and whether it is a priority.</p>
-        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/requests">Fill Out A     Maintenance Request</a></button>
+        <a href="/requests"><button type="button" class="btn btn-secondary btn-sm dashboard-buttons">Fill Out A Maintenance Request</button></a>
     </section>
 
     {% elif not is_renter %}
     <section>
         <p>Accept or reject submitted application.</p>
-        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/">Review Applications</a></button>
+        <a href="/view_applications"><button type="button" class="btn btn-secondary btn-sm dashboard-buttons">Review Applications</button></a>
         <p>Add late fees or penalties. Enter payment through their admin accounts</p>
-        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/">Review Rent Payments</a></button>
+        <a href="/"><button type="button" class="btn btn-secondary btn-sm dashboard-buttons">Review Rent Payments</button></a>
         <p>Review and respond to maintenance requests.</p>
-        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/">Review Maintenance Requests</a></button>
+        <a href="/"><button type="button" class="btn btn-secondary btn-sm dashboard-buttons">Review Maintenance Requests</button></a>
     </section>
     {% endif %}
 </div>

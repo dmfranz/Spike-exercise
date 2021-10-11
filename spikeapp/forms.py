@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from spikeapp.models import Payment, RequestForm
+from spikeapp.models import Payment, RequestForm, RentalApplication
 from spikeapp.cardhandling import CreditCardField
 from spikeapp.cardhandling import CreditCardExpirationField
 from spikeapp.models import Profile
@@ -15,11 +15,16 @@ class ProfileForm(ModelForm):
         fields = ("fullname", "is_renter", )
 
 
-class CreateNewRentalApplication(forms.Form):
+class CreateNewRentalApplication(ModelForm):
+    landlord = forms.CharField(label='Landlord', max_length=200)
     first_name = forms.CharField(label='First Name', max_length=200)
     last_name = forms.CharField(label='Last Name', max_length=200)
     email = forms.CharField(label='Email', max_length=200)
     phone_number = forms.IntegerField(label='Phone number')
+
+    class Meta:
+        model = RentalApplication
+        fields = '__all__'
 
     
 PRIORITY_CHOICES = [
@@ -33,6 +38,7 @@ class CreateRequestForm(forms.ModelForm):
     landlord_name = forms.CharField(label='Landlord Name', max_length=100)
     message = forms.CharField(label='Please enter your maintenance request here', widget=forms.Textarea(attrs={'style': "width:80%;"}), max_length=500)
     priority = forms.CharField(label='What is the priority?', widget=forms.Select(choices=PRIORITY_CHOICES))
+
     class Meta:
         model = RequestForm
         exclude = ('response',)
@@ -40,6 +46,7 @@ class CreateRequestForm(forms.ModelForm):
 
 class ManageRequestForm(forms.ModelForm):
     response = forms.CharField(label='Owner Comments', widget=forms.Textarea(attrs={'style': "width:80%;"}), max_length=500)
+
     class Meta:
         model = RequestForm
         exclude = ['tenant_name', 'landlord_name', 'message', 'priority']
