@@ -65,14 +65,19 @@ def payment(request):
 
 def manage_requests(request):
     query_results = RequestForm.objects.filter(landlord_name=str(request.user).lower().strip())
-    # print(request.user) the username of current user + RequestForm.landlord_name must be equal
-    # query_results = RequestForm.objects.all()
-    form = ManageRequestForm(request.POST)
-    if form.is_valid():
-        # response = form.get('response')
-        # form.update(response=response)
-        form.save()
-        return redirect('..')
+    if request.method == 'POST':
+        form = ManageRequestForm(request.POST)
+        if form.is_valid():
+            for item in query_results:
+                if item.message == request.POST.get('custId'):
+                    tlist = RequestForm.objects.filter(message=item.message)
+                    t = tlist.first()
+                    t.response = form.cleaned_data.get('response')
+                    t.save()
+
+            return redirect('..')
+    else:
+        form = ManageRequestForm()
 
     return render(request, 'manage_requests.html', {'form': form, 'query_results': query_results})
 
