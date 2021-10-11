@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from spikeapp.models import Profile, User, RequestForm
+from spikeapp.models import Profile, User
 from django.http import HttpResponse, response
 from .forms import CreateNewRentalApplication
 from .forms import CreateRequestForm
-from .forms import MakePayment, ManageRequestForm
+from .forms import MakePayment
+from .forms import RequestForm, ManageRequestForm
 from spikeapp.cardhandling import TryPayment
 
 
@@ -32,7 +33,6 @@ def rental_application(request):
 def dashboard(request):
     items = Profile.objects.filter(username=request.user)
     is_renter = items[0].is_renter
-    print(is_renter)
     return render(request, 'dashboard.html', {'is_renter': is_renter})
 
 

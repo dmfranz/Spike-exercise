@@ -9,10 +9,8 @@ Make Payment
 
 <form method="POST" class="form-group">
     {% csrf_token %}
-        {{form.as_p}}
-        <button type="submit" class="btn btn-success" >Enter payment information</button>
+    {{form.as_p}}
+    <button type="submit" class="btn btn-success" >Enter payment information</button>
 </form>
-
-
 
 {% endblock %}
