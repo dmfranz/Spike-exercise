@@ -54,16 +54,16 @@ class Payment(models.Model):
         (DEBIT, 'Debit Card')
     ]
 
-    USER_CHOICES = []
-    Tenants = Profile.objects.filter(is_renter=True)
-    for item in Tenants:
-        USER_CHOICES.append((item.username, item.fullname))
+    # USER_CHOICES = []
+    # Tenants = Profile.objects.filter(is_renter=True)
+    # for item in Tenants:
+    #     USER_CHOICES.append((item.username, item.fullname))
 
-    ByTenant = models.BooleanField(default=True)
+    ByRenter = models.BooleanField(default=True)
     # Because this can be done by an owner on behalf of a tenant, we need to record
     # who is making the deposit and whose account it will affect.
-    DepositingUser = models.CharField(max_length=200, blank=True)
-    AffectedUser = models.CharField(max_length=200, choices=USER_CHOICES)
+    DepositingUser = models.CharField(max_length=150, default='', blank=True)
+    AffectedUser = models.CharField(max_length=150, default='', blank=True)
     Amount = models.DecimalField(max_digits=8, decimal_places=2, validators=[MinValueValidator(0.01)])
-    RunningBalance = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    Method = models.CharField(max_length=3, choices=PAYMENT_CHOICES, default='DBT')
+    RunningBalance = models.DecimalField(max_digits=10, decimal_places=2, default=0, blank=True)
+    Method = models.CharField(max_length=3, choices=PAYMENT_CHOICES, default='DBT', blank=True)

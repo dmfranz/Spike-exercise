@@ -48,9 +48,8 @@ def requests(request):
     
     return render(request, 'requests.html', {'form':form, 'is_tenant': is_tenant})
 
-
+@login_required()
 def payment(request):
-    profiles = Profile.objects.all()
     curr_user_query = Profile.objects.filter(username=request.user)
     curr_user = curr_user_query[0]
     is_tenant = curr_user.is_renter
@@ -71,15 +70,28 @@ def payment(request):
             if final_form.ByTenant:
                 final_form.AffectedUser = curr_user.username
                 final_form.RunningBalance = curr_user.balance - final_form.Amount
-                curr_user.balance = final_form.RunningBalance
-            else:
-                items = Profile.objects.filter(username=final_form.AffectedUser)
-                affected_user = items[0]
-                final_form.RunningBalance = affected_user.balance - final_form.Amount
-                affected_user.balance = final_form.RunningBalance
+                curr_user.balance = curr_user.balance - final_form.Amount
 
-            final_form.save()
-            return redirect('../dashboard')
+                curr_user.save()
+                final_form.save()
+                return redirect('../dashboard')
+            else:
+                searched_user_objects = User.objects.filter(username=final_form.AffectedUser)
+                if searched_user_objects.exists():
+
+                    affected_user_object = searched_user_objects[0]
+
+                    items = Profile.objects.filter(username=affected_user_object)
+                    affected_user = items[0]
+                    final_form.RunningBalance = affected_user.balance - final_form.Amount
+                    affected_user.balance = final_form.RunningBalance
+
+                    affected_user.save()
+                    final_form.save()
+                    return redirect('../dashboard')
+                else:
+                    # This will be reached if the specified username was not found.
+                    return redirect('.')
         else:
             return redirect('.')
     else:

@@ -1,7 +1,6 @@
 from django import forms
 from django.forms import ModelForm
 from spikeapp.models import Payment
-from django.contrib.auth.models import User
 from spikeapp.cardhandling import CreditCardField
 from spikeapp.cardhandling import CreditCardExpirationField
 from spikeapp.models import Profile
@@ -13,7 +12,7 @@ class ProfileForm(ModelForm):
 
     class Meta:
         model = Profile
-        fields = ("fullname", "is_renter")
+        fields = ("fullname", "is_renter", )
 
 
 class CreateNewRentalApplication(forms.Form):
@@ -22,7 +21,7 @@ class CreateNewRentalApplication(forms.Form):
     email = forms.CharField(label='Email', max_length=200)
     phone_number = forms.IntegerField(label='Phone number')
 
-    
+
 PRIORITY_CHOICES = [
     ('low', 'Low Priority'),
     ('high', 'Urgent'),
@@ -39,11 +38,10 @@ class CreateRequestForm(forms.Form):
 class MakePayment(ModelForm):
     class Meta:
         model = Payment
-        fields = '__all__'
-
+        exclude = ['Method']
         labels = {
             "Amount": "Payment Amount",
-            "AffectedUser": "Account for Deposit"
+            "AffectedUser": "Account for Deposit (username)"
         }
         placeholders = {
             "Amount": 0.00
