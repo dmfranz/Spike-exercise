@@ -24,7 +24,7 @@ class RentalApplication(models.Model):
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     email = models.CharField(max_length=200)
-    phone_number = models.IntegerField(default=None)
+    phone_number = models.CharField(default=None, max_length=200)
 
 
 # PRIORITY_CHOICES = (
@@ -41,6 +41,7 @@ class RequestForm(models.Model):
     landlord_name = models.CharField(max_length=100)
     message = models.CharField(max_length=500)
     priority = models.CharField(max_length=100)
+    response = models.CharField(max_length=500, default='Add Comment Here')
 
 
 class Payment(models.Model):

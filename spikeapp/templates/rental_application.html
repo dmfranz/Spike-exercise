@@ -4,15 +4,11 @@ Create Rental Application
 {% endblock %}
 
 {% block content %}
-
-<h1>This is where you will have a form to submit a rental application</h1>
-
+<br>
 <form method="POST" class="form-group">
     {% csrf_token %}
     {{form.as_p}}
     <button type="submit" class="btn btn-success">Submit Application</button>
 </form>
-
-
 
 {% endblock %}

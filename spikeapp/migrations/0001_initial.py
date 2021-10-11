@@ -45,6 +45,7 @@ class Migration(migrations.Migration):
                 ('landlord_name', models.CharField(max_length=100)),
                 ('message', models.CharField(max_length=500)),
                 ('priority', models.CharField(max_length=100)),
+                ('response', models.CharField(default='Add Comment Here', max_length=500)),
             ],
         ),
         migrations.CreateModel(

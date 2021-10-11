@@ -1,11 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from spikeapp.models import Profile, User
+from spikeapp.models import Profile, RentalApplication, User
 from django.http import HttpResponse, response
 from .forms import CreateNewRentalApplication
 from .forms import CreateRequestForm
-from .forms import MakePayment
-from .forms import OwnerFeeForm
+from .forms import MakePayment, OwnerFeeForm
+from .forms import RequestForm, ManageRequestForm
 from spikeapp.cardhandling import TryPayment
 
 
@@ -21,8 +21,13 @@ def rental_application(request):
     if request.method == "POST":
         form = CreateNewRentalApplication(request.POST)
         if form.is_valid():
-            form.save()
-        return redirect('..')
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            email = form.cleaned_data['email']
+            phone_num = form.cleaned_data['phone_number']
+            f = RentalApplication(first_name=first_name, last_name=last_name, email=email, phone_number=phone_num)
+            f.save()
+        return redirect('../successful_application.html')
     else:
         form = CreateNewRentalApplication()
     
@@ -33,7 +38,6 @@ def rental_application(request):
 def dashboard(request):
     items = Profile.objects.filter(username=request.user)
     is_renter = items[0].is_renter
-    print(is_renter)
     return render(request, 'dashboard.html', {'is_renter': is_renter})
 
 
@@ -46,8 +50,9 @@ def requests(request):
         return redirect('..')
     else:
         form = CreateRequestForm()
-    
+
     return render(request, 'requests.html', {'form':form, 'is_tenant': is_tenant})
+
 
 @login_required()
 def payment(request):
@@ -138,3 +143,36 @@ def fee(request):
         fee_form = OwnerFeeForm()
 
     return render(request, 'fee.html', {'form': fee_form, 'is_tenant': is_tenant})
+
+
+def manage_requests(request):
+    query_results = RequestForm.objects.filter(landlord_name=str(request.user).lower().strip())
+    # print(request.user) the username of current user + RequestForm.landlord_name must be equal
+    # query_results = RequestForm.objects.all()
+    form = ManageRequestForm(request.POST)
+    if form.is_valid():
+        # response = form.get('response')
+        # form.update(response=response)
+        form.save()
+        return redirect('..')
+
+    return render(request, 'manage_requests.html', {'form': form, 'query_results': query_results})
+
+
+def view_requests(request):
+    query_results = RequestForm.objects.filter(tenant_name=str(request.user).lower().strip())
+    # print(request.user) the username of current user + RequestForm.landlord_name must be equal
+    # query_results = RequestForm.objects.all()
+
+    form = ManageRequestForm(request.GET)
+    if form.is_valid():
+        form.save()
+        return redirect('../view_requests')
+
+    #Don't we need a from variable here to be able to see the new data?
+
+    return render(request, 'view_requests.html', {'form': form, 'query_results': query_results})
+
+
+def successful_app(request):
+    return render(request, 'successful_application.html')
