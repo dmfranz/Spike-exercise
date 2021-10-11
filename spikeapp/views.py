@@ -177,7 +177,7 @@ def fee(request):
 
 
 def manage_requests(request):
-    query_results = RequestForm.objects.filter(landlord_name=str(request.user).lower().strip())
+    query_results = RequestForm.objects.filter(landlord_name=str(request.user).strip())
     if request.method == 'POST':
         form = ManageRequestForm(request.POST)
         if form.is_valid():
@@ -196,7 +196,7 @@ def manage_requests(request):
 
 
 def view_requests(request):
-    query_results = RequestForm.objects.filter(tenant_name=str(request.user).lower().strip())
+    query_results = RequestForm.objects.filter(tenant_name=str(request.user).strip())
     # print(request.user) the username of current user + RequestForm.landlord_name must be equal
     # query_results = RequestForm.objects.all()
 
