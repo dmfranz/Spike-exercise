@@ -23,6 +23,8 @@ MadRentals - Dashboard
         <button type="button" class="btn btn-secondary  btn-sm dashboard-buttons"><a href="/payment">Pay Rent</a></button>
         <p>Input a maintenance request and whether it is a priority.</p>
         <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/requests">Fill Out A     Maintenance Request</a></button>
+        <p>View maintenance requests and owner responses.</p>
+        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/view_requests/">View Maintenance Requests</a></button>
     </section>
 
     {% elif not is_renter %}
@@ -32,7 +34,7 @@ MadRentals - Dashboard
         <p>Add late fees or penalties. Enter payment through their admin accounts</p>
         <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/">Review Rent Payments</a></button>
         <p>Review and respond to maintenance requests.</p>
-        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/">Review Maintenance Requests</a></button>
+        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/manage_requests/">Review Maintenance Requests</a></button>
     </section>
     {% endif %}
 </div>
