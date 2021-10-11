@@ -11,15 +11,28 @@ MadRentals - Dashboard
 
 {% endblock %}
 
+
+
 {% block content %}
 
 {% if user.is_authenticated %}
 <div id="dashboard">
+
+    {% if messages %}
+    <section><ul class="messages">
+        {% for message in messages %}
+        <li
+        {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul></section>
+
+    {% endif %}
+
     {% if is_renter %}
     <section>
         <p>Apply and enter your information into a preliminary application, and submit it to rental owners.</p>
         <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/rentalapplication">Fill Out An Application</a></button>
-        <p>View balance on the system and make rental payments.</p>
+        <p>Make rental payments - outstanding balance is ${{ balance|floatformat:2 }}.</p>
         <button type="button" class="btn btn-secondary  btn-sm dashboard-buttons"><a href="/payment">Pay Rent</a></button>
         <p>Input a maintenance request and whether it is a priority.</p>
         <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/requests">Fill Out A     Maintenance Request</a></button>
@@ -29,8 +42,10 @@ MadRentals - Dashboard
     <section>
         <p>Accept or reject submitted application.</p>
         <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/">Review Applications</a></button>
-        <p>Add late fees or penalties. Enter payment through their admin accounts</p>
-        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/">Review Rent Payments</a></button>
+        <p>Enter rent payments manually.</p>
+        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/payment">Enter Payment</a></button>
+        <p>Add late fees or penalties.</p>
+        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/fees">Enter Fee</a></button>
         <p>Review and respond to maintenance requests.</p>
         <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/">Review Maintenance Requests</a></button>
     </section>

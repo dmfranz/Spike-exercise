@@ -7,6 +7,7 @@ from .forms import CreateRequestForm
 from .forms import MakePayment, OwnerFeeForm
 from .forms import RequestForm, ManageRequestForm
 from spikeapp.cardhandling import TryPayment
+from django.contrib import messages
 
 
 def spikeapp(request):
@@ -38,7 +39,8 @@ def rental_application(request):
 def dashboard(request):
     items = Profile.objects.filter(username=request.user)
     is_renter = items[0].is_renter
-    return render(request, 'dashboard.html', {'is_renter': is_renter})
+    balance = items[0].balance
+    return render(request, 'dashboard.html', {'balance': balance, 'is_renter': is_renter})
 
 
 def requests(request):
@@ -80,6 +82,7 @@ def payment(request):
 
                 curr_user.save()
                 final_form.save()
+                messages.success(request, 'Payment successful!')
                 return redirect('../dashboard')
             else:
                 searched_user_objects = User.objects.filter(username=final_form.AffectedUser)
@@ -94,11 +97,14 @@ def payment(request):
 
                     affected_user.save()
                     final_form.save()
+                    messages.success(request, 'Payment successful!')
                     return redirect('../dashboard')
                 else:
                     # This will be reached if the specified username was not found.
+                    messages.error(request, 'Username not found, please try again.')
                     return redirect('.')
         else:
+            messages.error(request, 'Payment failed, please ensure that fields are filled out correctly.')
             return redirect('.')
     else:
         payment_form = MakePayment()

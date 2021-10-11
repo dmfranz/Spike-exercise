@@ -7,6 +7,13 @@ Make A Payment
 
 <h1>Payment</h1>
 
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 
 <form method="POST" class="form-group">
     {% csrf_token %}
@@ -51,4 +58,5 @@ Make A Payment
     <!--{{form.as_p}}-->
     <button type="submit" class="btn btn-success" >Submit Payment</button>
 </form>
+
 {% endblock %}
