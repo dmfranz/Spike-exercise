@@ -29,15 +29,6 @@ class RentalApplication(models.Model):
     status = models.CharField(default='Open', max_length=15)
 
 
-# PRIORITY_CHOICES = (
-#     ('urgent','URGENT'),
-#     ('low priority', 'LOW'),
-# )
-
-# class Priority(models.Model):
-#     priority = models.CharField(max_length=2, choices=PRIORITY_CHOICES, default='low priority')
-
-
 class RequestForm(models.Model):
     tenant_name = models.CharField(max_length=100)
     landlord_name = models.CharField(max_length=100)
@@ -57,10 +48,6 @@ class Payment(models.Model):
         (DEBIT, 'Debit Card')
     ]
 
-    # USER_CHOICES = []
-    # Tenants = Profile.objects.filter(is_renter=True)
-    # for item in Tenants:
-    #     USER_CHOICES.append((item.username, item.fullname))
 
     ByRenter = models.BooleanField(default=True)
     # Because this can be done by an owner on behalf of a tenant, we need to record
