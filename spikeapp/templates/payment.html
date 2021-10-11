@@ -7,18 +7,20 @@ Make A Payment
 
 <h1>Payment</h1>
 
-{% if messages %}
-<section>
-    <ul class="messages">
-        {% for message in messages %}
-        <li
-                {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}
-        </li>
-        {% endfor %}
-    </ul>
-</section>
+    {% if messages %}
+    <section>
+        <ul class="messages">
+            {% for message in messages %}
+                {% ifnotequal message.message|stringformat:"s" "You have successfully logged out." %}
+                <li
+                        {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}
+                </li>
+                {% endifnotequal %}
+            {% endfor %}
+        </ul>
+    </section>
 
-{% endif %}
+    {% endif %}
 
 <form method="POST" class="form-group">
     {% csrf_token %}
