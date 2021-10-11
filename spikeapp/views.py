@@ -75,7 +75,7 @@ def manage_requests(request):
                     t.response = form.cleaned_data.get('response')
                     t.save()
 
-            return redirect('..')
+            return redirect('.')
     else:
         form = ManageRequestForm()
 
