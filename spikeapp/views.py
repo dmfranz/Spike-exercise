@@ -22,11 +22,12 @@ def rental_application(request):
     if request.method == "POST":
         form = CreateNewRentalApplication(request.POST)
         if form.is_valid():
+            landlord = form.cleaned_data['landlord']
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             email = form.cleaned_data['email']
             phone_num = form.cleaned_data['phone_number']
-            f = RentalApplication(first_name=first_name, last_name=last_name, email=email, phone_number=phone_num)
+            f = RentalApplication(landlord=landlord, first_name=first_name, last_name=last_name, email=email, phone_number=phone_num)
             f.save()
         return redirect('../successful_application.html')
     else:
