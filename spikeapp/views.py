@@ -5,6 +5,7 @@ from django.http import HttpResponse, response
 from .forms import CreateNewRentalApplication
 from .forms import CreateRequestForm
 from .forms import MakePayment
+from .forms import OwnerFeeForm
 from spikeapp.cardhandling import TryPayment
 
 
@@ -98,3 +99,42 @@ def payment(request):
         payment_form = MakePayment()
 
     return render(request, 'payment.html', {'form': payment_form, 'is_tenant': is_tenant})
+
+@login_required()
+def fee(request):
+    curr_user_query = Profile.objects.filter(username=request.user)
+    curr_user = curr_user_query[0]
+    is_tenant = curr_user.is_renter
+
+    if request.method == "POST":
+        fee_form = OwnerFeeForm(request.POST)
+
+        if fee_form.is_valid() and not is_tenant:
+            # final_form is the version of the form that will actually be saved to the database,
+            # with fields modified as necessary
+            final_form = fee_form.save(commit=False)
+            fee_form.CreatingUser = curr_user.username
+
+            # Need to set running balance, modify the user's balance, and set the affected user
+            searched_user_objects = User.objects.filter(username=final_form.AffectedUser)
+            # Need to confirm that the selected user account exists.
+            if searched_user_objects.exists():
+                affected_user_object = searched_user_objects[0]
+                items = Profile.objects.filter(username=affected_user_object)
+                affected_user = items[0]
+
+                final_form.RunningBalance = affected_user.balance + final_form.Amount
+                affected_user.balance = final_form.RunningBalance
+
+                affected_user.save()
+                final_form.save()
+                return redirect('../dashboard')
+            else:
+                # This will be reached if the specified username was not found.
+                return redirect('.')
+        else:
+            return redirect('.')
+    else:
+        fee_form = OwnerFeeForm()
+
+    return render(request, 'fee.html', {'form': fee_form, 'is_tenant': is_tenant})

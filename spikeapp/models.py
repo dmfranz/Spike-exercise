@@ -67,3 +67,10 @@ class Payment(models.Model):
     Amount = models.DecimalField(max_digits=8, decimal_places=2, validators=[MinValueValidator(0.01)])
     RunningBalance = models.DecimalField(max_digits=10, decimal_places=2, default=0, blank=True)
     Method = models.CharField(max_length=3, choices=PAYMENT_CHOICES, default='DBT', blank=True)
+
+class OwnerFee(models.Model):
+    CreatingUser = models.CharField(max_length=150, default='', blank=True)
+    AffectedUser = models.CharField(max_length=150, default='', blank=True)
+    Amount = models.DecimalField(max_digits=8, decimal_places=2, validators=[MinValueValidator(0.01)])
+    RunningBalance = models.DecimalField(max_digits=10, decimal_places=2, default=0, blank=True)
+    Note = models.CharField(max_length=500)
