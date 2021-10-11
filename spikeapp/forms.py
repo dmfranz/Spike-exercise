@@ -1,6 +1,7 @@
 from django import forms
-from django.forms import ModelForm
 from spikeapp.models import Payment, RequestForm, RentalApplication
+from django.forms import ModelForm, Textarea
+from spikeapp.models import Payment, RequestForm, OwnerFee
 from spikeapp.cardhandling import CreditCardField
 from spikeapp.cardhandling import CreditCardExpirationField
 from spikeapp.models import Profile
@@ -55,9 +56,10 @@ class ManageRequestForm(forms.ModelForm):
 class MakePayment(ModelForm):
     class Meta:
         model = Payment
-        exclude = ['ByRenter', 'RunningBalance', 'Method']
+        exclude = ['Method']
         labels = {
-            "Amount": "Payment Amount"
+            "Amount": "Payment Amount",
+            "AffectedUser": "Account for Deposit (username)"
         }
         placeholders = {
             "Amount": 0.00
@@ -74,3 +76,20 @@ class MakePayment(ModelForm):
     CardName = forms.CharField(label='Name on Card',
                                min_length=2,
                                max_length=26)
+
+
+class OwnerFeeForm(ModelForm):
+    class Meta:
+        model = OwnerFee
+        fields = '__all__'
+        labels = {
+            "Amount": "Fee Amount",
+            "Note": "Fee Notes",
+            "AffectedUser": "Account for Deposit (username)"
+        }
+        widgets = {
+            'Note': Textarea(attrs={'style': "width:80%;"}),
+        }
+        placeholders = {
+            "Amount": 0.00
+        }

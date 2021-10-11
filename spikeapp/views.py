@@ -4,9 +4,10 @@ from spikeapp.models import Profile, RentalApplication, User
 from django.http import HttpResponse, response, HttpResponseRedirect
 from .forms import CreateNewRentalApplication
 from .forms import CreateRequestForm
-from .forms import MakePayment
+from .forms import MakePayment, OwnerFeeForm
 from .forms import RequestForm, ManageRequestForm
 from spikeapp.cardhandling import TryPayment
+from django.contrib import messages
 
 
 def spikeapp(request):
@@ -21,12 +22,11 @@ def rental_application(request):
     if request.method == "POST":
         form = CreateNewRentalApplication(request.POST)
         if form.is_valid():
-            landlord = form.cleaned_data['landlord']
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             email = form.cleaned_data['email']
             phone_num = form.cleaned_data['phone_number']
-            f = RentalApplication(landlord=landlord, first_name=first_name, last_name=last_name, email=email, phone_number=phone_num)
+            f = RentalApplication(first_name=first_name, last_name=last_name, email=email, phone_number=phone_num)
             f.save()
         return redirect('../successful_application.html')
     else:
@@ -60,7 +60,8 @@ def reject_application(request):
 def dashboard(request):
     items = Profile.objects.filter(username=request.user)
     is_renter = items[0].is_renter
-    return render(request, 'dashboard.html', {'is_renter': is_renter})
+    balance = items[0].balance
+    return render(request, 'dashboard.html', {'balance': balance, 'is_renter': is_renter})
 
 
 def requests(request):
@@ -76,18 +77,102 @@ def requests(request):
     return render(request, 'requests.html', {'form':form, 'is_tenant': is_tenant})
 
 
+@login_required()
 def payment(request):
+    curr_user_query = Profile.objects.filter(username=request.user)
+    curr_user = curr_user_query[0]
+    is_tenant = curr_user.is_renter
+
     if request.method == "POST":
-        PaymentForm = MakePayment(request.POST)
-        if PaymentForm.is_valid() and TryPayment(PaymentForm):
-            PaymentForm.save()
-            return redirect('../dashboard')
+        payment_form = MakePayment(request.POST)
+
+        if payment_form.is_valid() and TryPayment(payment_form):
+            # FinalForm is the version of the form that will actually be saved to the database,
+            # with fields modified as necessary (based on tenant vs owner)
+            final_form = payment_form.save(commit=False)
+
+            final_form.ByTenant = is_tenant
+            final_form.DepositingUser = curr_user.username
+
+            # Exact functions are dependent on if this is a tenant or owner
+            # Need to set running balance and modify the user's balance, and possibly set the affected user
+            if final_form.ByTenant:
+                final_form.AffectedUser = curr_user.username
+                final_form.RunningBalance = curr_user.balance - final_form.Amount
+                curr_user.balance = curr_user.balance - final_form.Amount
+
+                curr_user.save()
+                final_form.save()
+                messages.success(request, 'Payment successful!')
+                return redirect('../dashboard')
+            else:
+                searched_user_objects = User.objects.filter(username=final_form.AffectedUser)
+                if searched_user_objects.exists():
+
+                    affected_user_object = searched_user_objects[0]
+
+                    items = Profile.objects.filter(username=affected_user_object)
+                    affected_user = items[0]
+                    final_form.RunningBalance = affected_user.balance - final_form.Amount
+                    affected_user.balance = final_form.RunningBalance
+
+                    affected_user.save()
+                    final_form.save()
+                    messages.success(request, 'Payment successful!')
+                    return redirect('../dashboard')
+                else:
+                    # This will be reached if the specified username was not found.
+                    messages.error(request, 'Username not found, please try again.')
+                    return redirect('.')
         else:
+            messages.error(request, 'Payment failed, please ensure that fields are filled out correctly.')
             return redirect('.')
     else:
-        PaymentForm = MakePayment()
+        payment_form = MakePayment()
 
-    return render(request, 'payment.html', {'form': PaymentForm})
+    return render(request, 'payment.html', {'form': payment_form, 'is_tenant': is_tenant})
+
+@login_required()
+def fee(request):
+    curr_user_query = Profile.objects.filter(username=request.user)
+    curr_user = curr_user_query[0]
+    is_tenant = curr_user.is_renter
+
+    if request.method == "POST":
+        fee_form = OwnerFeeForm(request.POST)
+
+        if fee_form.is_valid() and not is_tenant:
+            # final_form is the version of the form that will actually be saved to the database,
+            # with fields modified as necessary
+            final_form = fee_form.save(commit=False)
+            fee_form.CreatingUser = curr_user.username
+
+            # Need to set running balance, modify the user's balance, and set the affected user
+            searched_user_objects = User.objects.filter(username=final_form.AffectedUser)
+            # Need to confirm that the selected user account exists.
+            if searched_user_objects.exists():
+                affected_user_object = searched_user_objects[0]
+                items = Profile.objects.filter(username=affected_user_object)
+                affected_user = items[0]
+
+                final_form.RunningBalance = affected_user.balance + final_form.Amount
+                affected_user.balance = final_form.RunningBalance
+
+                affected_user.save()
+                final_form.save()
+                messages.success(request, 'Fee added successfully!')
+                return redirect('../dashboard')
+            else:
+                # This will be reached if the specified username was not found.
+                messages.error(request, 'Username not found, please try again.')
+                return redirect('.')
+        else:
+            messages.error(request, 'Fee addition failed, please ensure that fields are filled out correctly.')
+            return redirect('.')
+    else:
+        fee_form = OwnerFeeForm()
+
+    return render(request, 'fee.html', {'form': fee_form, 'is_tenant': is_tenant})
 
 
 def manage_requests(request):
