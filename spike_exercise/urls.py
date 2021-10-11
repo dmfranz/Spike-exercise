@@ -31,5 +31,6 @@ urlpatterns = [
     path('logout', v.logout_function, name="logout"),  # logout button pressed; called from form.
     path('manage_requests/', spikeapp_views.manage_requests, name='manage_requests'),
     path('view_requests/', spikeapp_views.view_requests, name='view_requests'),
-    path('view_applications/', spikeapp_views.view_applications, name='view_applications')
+    path('view_applications/', spikeapp_views.view_applications, name='view_applications'),
+    path('successful_application.html', spikeapp_views.successful_app, name="successful_application"),
 ]

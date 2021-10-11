@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from spikeapp.models import Profile, User
+from spikeapp.models import Profile, RentalApplication, User
 from django.http import HttpResponse, response
 from .forms import CreateNewRentalApplication
 from .forms import CreateRequestForm
@@ -21,8 +21,13 @@ def rental_application(request):
     if request.method == "POST":
         form = CreateNewRentalApplication(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('/dashboard')
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            email = form.cleaned_data['email']
+            phone_num = form.cleaned_data['phone_number']
+            f = RentalApplication(first_name=first_name, last_name=last_name, email=email, phone_number=phone_num)
+            f.save()
+        return redirect('../successful_application.html')
     else:
         form = CreateNewRentalApplication()
     
@@ -94,3 +99,7 @@ def view_requests(request):
     #Don't we need a from variable here to be able to see the new data?
 
     return render(request, 'view_requests.html', {'form': form, 'query_results': query_results})
+
+
+def successful_app(request):
+    return render(request, 'successful_application.html')
