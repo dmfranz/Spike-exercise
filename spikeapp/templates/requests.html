@@ -4,101 +4,14 @@ Maintenance Requests
 {% endblock %}
 
 {% block content %}
-{% if is_renter %}
+{% if is_tenant %}
 <h1>Create Maintenance Request</h1>
 <form method="POST" class="form-group">
     {% csrf_token %}
-    {{form.as_p}}
-    <button type="submit" class="btn btn-success" >Submit Request</button>
+        {{form.as_p}}
+        <button type="submit" class="btn btn-success" >Submit Request</button>
 </form>
-{% elif not is_renter %}
+{% elif not is_tenant %}
 
 {% endif %}
 {% endblock %}
-
-<!-- <style>
-    form {
-  /* Center the form on the page */
-  margin: 0 auto;
-  width: 500px;
-  /* Form outline */
-  padding: 1em;
-  border: 1px solid #CCC;
-  border-radius: 1em;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-form li + li {
-  margin-top: 1em;
-}
-
-label {
-  /* Uniform size & alignment */
-  display: inline-block;
-  width: 90px;
-  text-align: right;
-}
-
-input,
-textarea {
-  /* To make sure that all text fields have the same font settings
-     By default, textareas have a monospace font */
-  font: 1em sans-serif;
-
-  /* Uniform text field size */
-  width: 300px;
-  box-sizing: border-box;
-
-  /* Match form field borders */
-  border: 1px solid #999;
-}
-
-input:focus,
-textarea:focus {
-  /* Additional highlight for focused elements */
-  border-color: #000;
-}
-
-textarea {
-  /* Align multiline text fields with their labels */
-  vertical-align: top;
-
-  /* Provide space to type some text */
-  height: 5em;
-}
-
-.button {
-  /* Align buttons with the text fields */
-  padding-left: 90px; /* same size as the label elements */
-}
-
-button {
-  /* This extra margin represent roughly the same space as the space
-     between the labels and their text fields */
-  margin-left: .5em;
-}
-</style>
-<form action="/my-handling-form-page" method="post">
-    <ul>
-        <li>
-            <label for="tenant">Tenant:</label>
-            <input type="text" id="tenant" name="tenant_name" value="Enter Your Full Name">
-        </li>
-        <li>
-            <label for="landlord">Landlord:</label>
-            <input type="text" id="landlord" name="landlord_name" value="Enter Name of Landlord">
-        </li>
-        <li>
-            <label for="msg">Maintenance Request:</label>
-            <textarea id="msg" name="user_message">Please enter your maintenance request here</textarea>
-        </li>
-        <li class="button">
-            <button type="submit">Send your message</button>
-        </li>
-    </ul>
-</form> -->
