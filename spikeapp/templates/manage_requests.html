@@ -13,10 +13,11 @@ Manage Requests
         <div class="container">
             {% for item in query_results %}
                 <h5>Maintenance request from "{{ item.tenant_name }}" with message: <b>{{ item.message }} PRIORITY: {{ item.priority }}</b>.</h5>
-                <form method="POST" class="form-group">
+                <form method="POST" class="form-group" name="response">
                     {% csrf_token %}
                         {{form.as_p}}
-                        <button type="submit" class="btn btn-success" >Add Comment</button>
+                        <input type="hidden" id="custId" name="custId" value="{{ item.message }}">
+                        <button type="submit" class="btn btn-success">Add Comment</button>
                 </form>
             {% endfor %}
             <br>
