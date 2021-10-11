@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}
+Review Applications
+{% endblock %}
+
+{% block content %}
+<p>This is where you can review applications.</p>
+<table class="table">
+    <tr>
+        <th>Landlord</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+        <th>Status</th>
+        <th>Accept</th>
+        <th>Reject</th>
+    </tr>
+    {% for item in items %}
+
+    <tr>
+        <td>{{item.landlord}}</td>
+        <td>{{item.first_name}}</td>
+        <td>{{item.last_name}}</td>
+        <td>{{item.email}}</td>
+        <td>{{item.phone_number}}</td>
+        <td>{{item.status}}</td>
+        {% if item.status == 'Open' %}
+        <td>
+            <form action="{% url 'accept_application' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" name='Accept' value={{item.id}}>Accept</button>
+            </form>
+        </td>
+        <td>
+            <form action="{% url 'reject_application' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" name='Reject' value={{item.id}}>Reject</button>
+            </form>
+        </td>
+        {% else %}
+        <td>
+            -
+        </td>
+        <td>
+            -
+        </td>
+        {% endif %}
+    </tr>
+
+    {% endfor %}
+</table>
+{% endblock %}

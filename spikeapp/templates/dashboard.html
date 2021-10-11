@@ -11,8 +11,6 @@ MadRentals - Dashboard
 
 {% endblock %}
 
-
-
 {% block content %}
 
 {% if user.is_authenticated %}
@@ -35,7 +33,7 @@ MadRentals - Dashboard
         <p>Make rental payments - outstanding balance is ${{ balance|floatformat:2 }}.</p>
         <button type="button" class="btn btn-secondary  btn-sm dashboard-buttons"><a href="/payment">Pay Rent</a></button>
         <p>Input a maintenance request and whether it is a priority.</p>
-        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/requests">Fill Out A     Maintenance Request</a></button>
+        <a href="/requests"><button type="button" class="btn btn-secondary btn-sm dashboard-buttons">Fill Out A Maintenance Request</button></a>
     </section>
 
     {% elif not is_renter %}
@@ -47,7 +45,7 @@ MadRentals - Dashboard
         <p>Add late fees or penalties.</p>
         <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/fees">Enter Fee</a></button>
         <p>Review and respond to maintenance requests.</p>
-        <button type="button" class="btn btn-secondary btn-sm dashboard-buttons"><a href="/">Review Maintenance Requests</a></button>
+        <a href="/"><button type="button" class="btn btn-secondary btn-sm dashboard-buttons">Review Maintenance Requests</button></a>
     </section>
     {% endif %}
 </div>

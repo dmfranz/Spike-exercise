@@ -21,10 +21,12 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 
 class RentalApplication(models.Model):
+    landlord = models.CharField(max_length=200)
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     email = models.CharField(max_length=200)
     phone_number = models.CharField(default=None, max_length=200)
+    status = models.CharField(default='Open', max_length=15)
 
 
 # PRIORITY_CHOICES = (

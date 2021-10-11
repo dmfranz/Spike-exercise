@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from spikeapp.models import Profile, RentalApplication, User
-from django.http import HttpResponse, response
+from django.http import HttpResponse, response, HttpResponseRedirect
 from .forms import CreateNewRentalApplication
 from .forms import CreateRequestForm
 from .forms import MakePayment, OwnerFeeForm
@@ -33,6 +33,27 @@ def rental_application(request):
         form = CreateNewRentalApplication()
     
     return render(request, 'rental_application.html', {'form': form})
+
+
+def view_applications(request):
+    items = RentalApplication.objects.filter(landlord=request.user)
+    return render(request, 'view_applications.html', {'items': items})
+
+
+def accept_application(request):
+    items = RentalApplication.objects.filter(id=request.POST['Accept'])
+    item = items[0]
+    item.status = "Accepted"
+    item.save()
+    return HttpResponseRedirect('/view_applications/')
+
+
+def reject_application(request):
+    items = RentalApplication.objects.filter(id=request.POST['Reject'])
+    item = items[0]
+    item.status = "Rejected"
+    item.save()
+    return HttpResponseRedirect('/view_applications/')
 
 
 @login_required()

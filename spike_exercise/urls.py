@@ -23,8 +23,8 @@ urlpatterns = [
     path('register/', v.register, name="register"),
     path('dashboard/', spikeapp_views.dashboard, name="dashboard"),
     path('payment/', spikeapp_views.payment, name="payment"),
-    path('fees/', spikeapp_views.fee, name="fee"),
     path('', include('spikeapp.urls')),
+    path('fees/', spikeapp_views.fee, name="fee"),
     path('requests/', spikeapp_views.requests, name="requests"),
     path('', include('django.contrib.auth.urls')),
     path('rentalapplication/', spikeapp_views.rental_application, name="rental_application"),
@@ -32,5 +32,8 @@ urlpatterns = [
     path('logout', v.logout_function, name="logout"),  # logout button pressed; called from form.
     path('manage_requests/', spikeapp_views.manage_requests, name='manage_requests'),
     path('view_requests/', spikeapp_views.view_requests, name='view_requests'),
-    path('successful_application.html', spikeapp_views.successful_app, name="successful_application")
+    path('view_applications/', spikeapp_views.view_applications, name='view_applications'),
+    path('successful_application.html', spikeapp_views.successful_app, name="successful_application"),
+    path('accept_application/', spikeapp_views.accept_application, name='accept_application'),
+    path('reject_application/', spikeapp_views.reject_application, name='reject_application'),
 ]
