@@ -20,13 +20,13 @@ class CreateNewRentalApplication(ModelForm):
     first_name = forms.CharField(label='First Name', max_length=200)
     last_name = forms.CharField(label='Last Name', max_length=200)
     email = forms.CharField(label='Email', max_length=200)
-    phone_number = forms.CharField(label='Phone number',max_length=200)
+    phone_number = forms.CharField(label='Phone number', max_length=200)
 
     class Meta:
         model = RentalApplication
-        fields = '__all__'
+        fields = ("landlord", "first_name", "last_name", "email", "phone_number")
 
-    
+
 PRIORITY_CHOICES = [
     ('low', 'Low Priority'),
     ('high', 'Urgent'),

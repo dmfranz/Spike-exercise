@@ -25,6 +25,7 @@ class RentalApplication(models.Model):
     last_name = models.CharField(max_length=200)
     email = models.CharField(max_length=200)
     phone_number = models.CharField(default=None, max_length=200)
+    status = models.CharField(default='Open', max_length=15)
 
 
 # PRIORITY_CHOICES = (

@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from spikeapp.models import Profile, RentalApplication, User
-from django.http import HttpResponse, response
+from django.http import HttpResponse, response, HttpResponseRedirect
 from .forms import CreateNewRentalApplication
 from .forms import CreateRequestForm
 from .forms import MakePayment
@@ -21,11 +21,12 @@ def rental_application(request):
     if request.method == "POST":
         form = CreateNewRentalApplication(request.POST)
         if form.is_valid():
+            landlord = form.cleaned_data['landlord']
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             email = form.cleaned_data['email']
             phone_num = form.cleaned_data['phone_number']
-            f = RentalApplication(first_name=first_name, last_name=last_name, email=email, phone_number=phone_num)
+            f = RentalApplication(landlord=landlord, first_name=first_name, last_name=last_name, email=email, phone_number=phone_num)
             f.save()
         return redirect('../successful_application.html')
     else:
@@ -35,7 +36,24 @@ def rental_application(request):
 
 
 def view_applications(request):
-    return render(request, 'view_applications.html')
+    items = RentalApplication.objects.filter(landlord=request.user)
+    return render(request, 'view_applications.html', {'items': items})
+
+
+def accept_application(request):
+    items = RentalApplication.objects.filter(id=request.POST['Accept'])
+    item = items[0]
+    item.status = "Accepted"
+    item.save()
+    return HttpResponseRedirect('/view_applications/')
+
+
+def reject_application(request):
+    items = RentalApplication.objects.filter(id=request.POST['Reject'])
+    item = items[0]
+    item.status = "Rejected"
+    item.save()
+    return HttpResponseRedirect('/view_applications/')
 
 
 @login_required()

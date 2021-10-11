@@ -33,4 +33,6 @@ urlpatterns = [
     path('view_requests/', spikeapp_views.view_requests, name='view_requests'),
     path('view_applications/', spikeapp_views.view_applications, name='view_applications'),
     path('successful_application.html', spikeapp_views.successful_app, name="successful_application"),
+    path('accept_application/', spikeapp_views.accept_application, name='accept_application'),
+    path('reject_application/', spikeapp_views.reject_application, name='reject_application'),
 ]
