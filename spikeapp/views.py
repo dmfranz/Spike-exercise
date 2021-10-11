@@ -139,11 +139,14 @@ def fee(request):
 
                 affected_user.save()
                 final_form.save()
+                messages.success(request, 'Fee added successfully!')
                 return redirect('../dashboard')
             else:
                 # This will be reached if the specified username was not found.
+                messages.error(request, 'Username not found, please try again.')
                 return redirect('.')
         else:
+            messages.error(request, 'Fee addition failed, please ensure that fields are filled out correctly.')
             return redirect('.')
     else:
         fee_form = OwnerFeeForm()
